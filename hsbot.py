@@ -418,7 +418,7 @@ class IOPorts():
 
 	def doPony(self,ch):
 		debugMsg(str(self.lastPony),'LASTPONY')
-		if self.lastPony < (time()-300):
+		if self.lastPony < (time()-150):
 			self.lastPony = time()
 			makePony()
 
