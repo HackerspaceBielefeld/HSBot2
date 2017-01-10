@@ -1,0 +1,10 @@
+=== Do, 12.1. ===
+Abfall: Bioabfallbehaelter
+Abfall: Wertstofftonne
+Plenum
+=== Mi, 18.1. ===
+Abfall: Restabfallbehaelter
+=== Do, 19.1. ===
+Abfall: Papierbehaelter
+=== Sa, 21.1. ===
+Hackafé

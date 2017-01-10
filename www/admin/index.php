@@ -1,34 +1,58 @@
 <?php
-if($_SERVER['REMOTE_USER'] == 'gastwlan'){
-	$zeichen = "abcedfghijkmnopqrstuvwxyz23456789";
-	$pw = "GastimHS!";
-	
-	/*@mt_srand ((double) microtime() * 1000000);
-	for ($i = 0; $i < 8; $i++ ) {
-		$r = mt_rand(0,strlen($zeichen)-1);
-		$pw .= $zeichen{$r};
-	}*/
-
-	$h = fopen('cache/gwp.txt',w);
-	flock($h,2);
-	fputs($h,'GAST-WLAN-Passwort: '. $pw);
-	flock($h,3);
-	fclose($h);
-	header('Content-type: plain/text');
-	header('Content-Disposition: attachment; filename="gastwlan.txt"');
-	echo $pw;
-	
-	
-}else{
 	error_reporting(E_ALL); 
 	ini_set('error_reporting', E_ALL);
 	echo '<html><head></head><body>
-		<a href="index.php?a=infos">Infos</a><a href=""></a><hr/>';
+		<a href="index.php?a=infos">Infos</a> <a href="index.php?a=termin">Termine</a><hr/>';
 
 	if(isset($_GET['a'])) {
 		$a = $_GET['a'];
 	}else{
 		$a = '';
+	}
+
+	if($a == 'termin') {
+		if(isset($_POST['submit'])) {
+			$f = fopen('cache/schedule.csv',"w");
+			$lines = array();
+			foreach($_POST['name'] as $index => $name) {
+				if($name != '') {
+					$wd = date("w",mktime(12,0,0, $_POST['mon'][$index],$_POST['tag'][$index],$_POST['mon'][$index]));
+					$lines[] = $name .';'. $_POST['zeit'][$index] .';'. $_POST['jahr'][$index] .';'. $_POST['mon'][$index] .';'. $_POST['tag'][$index] .';'. $wd; 
+				}	
+			}
+			fputs($f,implode("\n",$lines));
+			fclose($f);
+			echo 'Daten angepasst<br/>';
+		}
+
+		$termine = file("cache/schedule.csv");
+		echo '<table><form action="index.php?a=termin" method="post">
+			<tr><td>Name</td><td>Zeit</td><td>Jahr</td><td>Monat</td><td>Tag</td></tr>';
+		foreach($termine as $index => $termin) {
+			$t = explode(';',$termin);
+			echo '<tr>
+				<td><input type="text" name="name['. $index .']" value="'. $t[0] .'" /></td>
+				<td><input type="text" name="zeit['. $index .']" value="'. $t[1] .'" /></td>
+				<td><input type="text" name="jahr['. $index .']" value="'. $t[2] .'" size="4" /></td>
+				<td><input type="text" name="mon['. $index .']" value="'. $t[3] .'" size="4" /></td>
+				<td><input type="text" name="tag['. $index .']" value="'. $t[4] .'" size="4" /></td>
+			</tr>';
+		}
+		$index++;
+		$now = explode('-',date("Y-m-d"));
+		echo '<tr>
+			<td><input type="text" name="name['. $index .']" value="" /></td>
+			<td><input type="text" name="zeit['. $index .']" value="" /></td>
+			<td><input type="text" name="jahr['. $index .']" value="'. $now[0] .'" size="4" /></td>
+			<td><input type="text" name="mon['. $index .']" value="'. $now[1] .'" size="4" /></td>
+			<td><input type="text" name="tag['. $index .']" value="'. $now[2] .'" size="4" /></td>
+		</tr>
+		<tr>
+			<td colspan="5">
+				<input type="submit" name="submit" value="Speichern" />
+			</td>
+		</tr>
+		</form</table>';
 	}
 	
 	if($a == 'infos') {
@@ -80,5 +104,4 @@ if($_SERVER['REMOTE_USER'] == 'gastwlan'){
 			</form';
 		}
 	}
-}
 ?>
