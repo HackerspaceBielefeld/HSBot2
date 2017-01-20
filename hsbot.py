@@ -297,7 +297,9 @@ class MQTT():
 	def on_connect(self,client, userdata, flags, rc):
 		debugMsg("MQTT Start: "+str(rc))
 		self.client.subscribe(c.MQTTTOPI)
+		self.client.subscribe(c.MQTTTOPJ)
 		self.client.subscribe(c.MQTTTOPT)
+		self.client.subscribe(c.MQTTTOPC)
 		self.client.subscribe("test")
 
 	def on_message(self,client, userdata, msg):
@@ -315,8 +317,12 @@ class MQTT():
 		if msg.topic == 'test' and msg.payload == 'virus':
 			thread(makeFullAni,('/media/id4-virus.gif',0.04))
 
-		if(msg.topic == c.MQTTTOPI):
+		if(msg.topic == c.MQTTTOPI or msg.topic == c.MQTTTOPJ):
 			sendMsg("[MQTT]: "+str(msg.payload))
+			
+		if(msg.topic == c.MQTTTOPC):
+			global jabber
+			jabber.sendTo("[MQTT]: "+ str(msg.payload))
 
 	def incMsg(msg,nick=''):
 		pass
