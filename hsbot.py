@@ -154,7 +154,7 @@ def makeCountdown(nick,timecode):
 	global prioToast
 	
 	
-		mospub.single(c.MQTTOUTP, payload="countdown start", hostname=c.MQTTSRV)
+	mospub.single(c.MQTTOUTP, payload="countdown start", hostname=c.MQTTSRV)
 
 	time = str(timecode).split(":")
 	l = len(time)
@@ -299,7 +299,6 @@ class MQTT():
 		self.client.subscribe(c.MQTTTOPI)
 		self.client.subscribe(c.MQTTTOPJ)
 		self.client.subscribe(c.MQTTTOPT)
-		self.client.subscribe(c.MQTTTOPC)
 		self.client.subscribe("test")
 
 	def on_message(self,client, userdata, msg):
