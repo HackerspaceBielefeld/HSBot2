@@ -676,6 +676,7 @@ def sendMsg(msg,colstr=False,tag="nothing"):
 			chat.tag_add(tag,pos,epos)
 		chat.update()
 		f.update_idletasks()
+		mospub.single(c.MQTTTOPC, payload=msg, hostname=c.MQTTSRV)
 	except:
 		pass
 	
