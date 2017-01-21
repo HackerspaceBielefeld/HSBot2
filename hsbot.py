@@ -73,6 +73,8 @@ def makeMoin(nick):
 			lastMoin = time()
 	except:
 		jabber.sendTo("[GREETING] Hi "+nick+"!")
+		
+	mospub.single(c.MQTTOUTP, payload="moin", hostname=c.MQTTSRV)
 	
 def makePony(p):
 	global noPony
@@ -93,7 +95,7 @@ def makePony(p):
 			if noPony < time():
 				jabber.sendTo("[PONIES] PONYPONYPONY")
 			makeFullAni('/media/pony2.gif')
-		#TODO
+		mospub.single(c.MQTTOUTP, payload="pony", hostname=c.MQTTSRV)
 		
 def makeTrains(nick):
 	global lastTrain
@@ -144,11 +146,15 @@ def makeTrains(nick):
 	, "Der Zug des Lokführers ist ausgefallen. Er kommt jetzt mit dem Taxi."
 	, "Die Kollegen im Bistro geben wieder alles. Ich habe vorhin ein Stück Kuchen gegessen und würde Ihnen raten, das auch zu tun.")
 	jabber.sendTo("[TRAIN] "+ antw[randrange(0,len(antw)-1)])
+	mospub.single(c.MQTTOUTP, payload="train", hostname=c.MQTTSRV)
 
 # zeigt den countdown mit low prio (bedeutet, wenn tost kommt wird der countdown ausgesetzt)
 def makeCountdown(nick,timecode):
 	global toast
 	global prioToast
+	
+	
+		mospub.single(c.MQTTOUTP, payload="countdown start", hostname=c.MQTTSRV)
 
 	time = str(timecode).split(":")
 	l = len(time)
@@ -192,6 +198,7 @@ def makeCountdown(nick,timecode):
 			debugMsg("[COUNTDOWN] "+ str(m))
 			m=m-1
 		jabber.sendTo("[COUNTDOWN] @"+nick +" Dein Countdown ist abgelaufen.")
+		mospub.single(c.MQTTOUTP, payload="countdown end", hostname=c.MQTTSRV)
 		toast.grid_remove()
 
 #sendet toast an display
@@ -290,7 +297,9 @@ class MQTT():
 	def on_connect(self,client, userdata, flags, rc):
 		debugMsg("MQTT Start: "+str(rc))
 		self.client.subscribe(c.MQTTTOPI)
+		self.client.subscribe(c.MQTTTOPJ)
 		self.client.subscribe(c.MQTTTOPT)
+		self.client.subscribe(c.MQTTTOPC)
 		self.client.subscribe("test")
 
 	def on_message(self,client, userdata, msg):
@@ -308,8 +317,12 @@ class MQTT():
 		if msg.topic == 'test' and msg.payload == 'virus':
 			thread(makeFullAni,('/media/id4-virus.gif',0.04))
 
-		if(msg.topic == c.MQTTTOPI):
+		if(msg.topic == c.MQTTTOPI or msg.topic == c.MQTTTOPJ):
 			sendMsg("[MQTT]: "+str(msg.payload))
+			
+		if(msg.topic == c.MQTTTOPC):
+			global jabber
+			jabber.sendTo("[MQTT]: "+ str(msg.payload))
 
 	def incMsg(msg,nick=''):
 		pass
