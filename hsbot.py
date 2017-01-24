@@ -95,7 +95,7 @@ def makePony(p):
 			if noPony < time():
 				jabber.sendTo("[PONIES] PONYPONYPONY")
 			makeFullAni('/media/pony2.gif')
-		mospub.single(c.MQTTOUTP, payload="pony", hostname=c.MQTTSRV)
+		mospub.single(c.MQTTDEBU, payload="pony", hostname=c.MQTTSRV)
 		
 def makeTrains(nick):
 	global lastTrain
