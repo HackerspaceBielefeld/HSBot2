@@ -74,7 +74,7 @@ def makeMoin(nick):
 	except:
 		jabber.sendTo("[GREETING] Hi "+nick+"!")
 		
-	mospub.single(c.MQTTOUTP, payload="moin", hostname=c.MQTTSRV)
+	mospub.single(c.MQTTDEBU, payload="moin", hostname=c.MQTTSRV)
 	
 def makePony(p):
 	global noPony
@@ -146,7 +146,7 @@ def makeTrains(nick):
 	, "Der Zug des Lokführers ist ausgefallen. Er kommt jetzt mit dem Taxi."
 	, "Die Kollegen im Bistro geben wieder alles. Ich habe vorhin ein Stück Kuchen gegessen und würde Ihnen raten, das auch zu tun.")
 	jabber.sendTo("[TRAIN] "+ antw[randrange(0,len(antw)-1)])
-	mospub.single(c.MQTTOUTP, payload="train", hostname=c.MQTTSRV)
+	mospub.single(c.MQTTDEBU, payload="train", hostname=c.MQTTSRV)
 
 # zeigt den countdown mit low prio (bedeutet, wenn tost kommt wird der countdown ausgesetzt)
 def makeCountdown(nick,timecode):
@@ -154,7 +154,7 @@ def makeCountdown(nick,timecode):
 	global prioToast
 	
 	
-	mospub.single(c.MQTTOUTP, payload="countdown start", hostname=c.MQTTSRV)
+	#mospub.single(c.MQTTDEBU, payload="countdown start", hostname=c.MQTTSRV)
 
 	time = str(timecode).split(":")
 	l = len(time)
@@ -198,7 +198,7 @@ def makeCountdown(nick,timecode):
 			debugMsg("[COUNTDOWN] "+ str(m))
 			m=m-1
 		jabber.sendTo("[COUNTDOWN] @"+nick +" Dein Countdown ist abgelaufen.")
-		mospub.single(c.MQTTOUTP, payload="countdown end", hostname=c.MQTTSRV)
+		#mospub.single(c.MQTTDEBU, payload="countdown end", hostname=c.MQTTSRV)
 		toast.grid_remove()
 
 #sendet toast an display
