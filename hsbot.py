@@ -23,6 +23,7 @@ prioToast = False # wenn ein prioritäts Toast da ist werden sachen wie countdow
 lastTrain = 0 #letzter Zeug
 lastMoin = 0 #wann das letzte mal begrüßt wurde
 noPony = 0 #Bis wann keine Ponychat nachrichten mehr kommen sollen
+sensors = {} #gesendete sensorik
 
 #gpio einstellungen
 g.setwarnings(False)
@@ -54,6 +55,8 @@ def befehl(nick,msg):
 				io.blink_stop()
 			else:
 				io.blink_start(int(param),0.1)
+		elif b[0] == ':sensor':
+			thread(makeSensor,(param,))
 	except:
 		pass
 		
@@ -261,7 +264,17 @@ def makeStatus():
 		jabber.sendTo("[STATUS] Der Space ist aktuell geschlossen.")
 	else:
 		jabber.sendTo("[STATUS] Der Space ist aktuell geöffnet.")
+	
+def makeSensor(pattern):
+	global sensors
+	keys = sensors.keys()
+	s = ""
+	for k in keys:
+		if k.startswith(pattern):
+			s = s +"\n"+ k +": "+ sensors[k]
 		
+	jabber.sendTo("[SENSOR]"+ s)
+	
 def setTopic(tpc):
 	pass
 	
@@ -299,6 +312,7 @@ class MQTT():
 		self.client.subscribe(c.MQTTTOPI)
 		self.client.subscribe(c.MQTTTOPJ)
 		self.client.subscribe(c.MQTTTOPT)
+		self.client.subscribe(c.MQTTSENSOR)
 		self.client.subscribe("test")
 
 	def on_message(self,client, userdata, msg):
@@ -316,12 +330,20 @@ class MQTT():
 		if msg.topic == 'test' and msg.payload == 'virus':
 			thread(makeFullAni,('/media/id4-virus.gif',0.04))
 
-		if(msg.topic == c.MQTTTOPI or msg.topic == c.MQTTTOPJ):
+		if msg.topic == c.MQTTTOPI or msg.topic == c.MQTTTOPJ:
 			sendMsg("[MQTT]: "+str(msg.payload))
 			
-		if(msg.topic == c.MQTTTOPC):
+		if msg.topic == c.MQTTTOPC:
 			global jabber
 			jabber.sendTo("[MQTT]: "+ str(msg.payload))
+			
+		if msg.topic.startswith(c.MQTTSENSOR):
+			global sensors
+			l = len(c.MQTTSENSOR)
+			sname = msg.topic[l:]
+			swert = msg.payload
+			sensors[sname] = swert
+			
 
 	def incMsg(msg,nick=''):
 		pass
