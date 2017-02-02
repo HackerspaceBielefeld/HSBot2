@@ -30,7 +30,7 @@ MQTTTOPT = "hsbot/toast"		#mqtt toast topic
 MQTTTOPTOUT = "toasted"			#mqtt toast ausgabe
 MQTTDEBU = "debug/hsbot"		#mqtt debug topic
 MQTTOUTP = "hsbot"				#allgemeiner output topic
-MQTTSENSOR = "sensors/"		#mqtt sensoren empfangen
+MQTTSENSOR = "sensors"		#mqtt sensoren empfangen
 
 # GPIO Daten
 INPINS = [8,10,11,12,13,15,16,18,21,22,23,24,26]

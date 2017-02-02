@@ -24,6 +24,7 @@ lastTrain = 0 #letzter Zeug
 lastMoin = 0 #wann das letzte mal begrüßt wurde
 noPony = 0 #Bis wann keine Ponychat nachrichten mehr kommen sollen
 sensors = {} #gesendete sensorik
+ponyPressed = 0
 
 #gpio einstellungen
 g.setwarnings(False)
@@ -81,8 +82,14 @@ def makeMoin(nick):
 	
 def makePony(p):
 	global noPony
+	global ponyPressed
+	global sensors
+
+	ponyPressed = ponyPressed +1
+	sensors['/pony_faktor/innen'] = randint(-1000,2000) * randint(1,ponyPressed) / 10
+
 	if p == "!":
-		noPony = time() + 3600
+		noPony = time() + 7200
 	else:
 		x = 1
 		r = randrange(0,x)
@@ -271,7 +278,7 @@ def makeSensor(pattern):
 	s = ""
 	for k in keys:
 		if k.startswith(pattern):
-			s = s +"\n"+ k +": "+ sensors[k]
+			s = s +"\n"+ str(k) +": "+ str(sensors[k])
 		
 	jabber.sendTo("[SENSOR]"+ s)
 	
@@ -312,7 +319,7 @@ class MQTT():
 		self.client.subscribe(c.MQTTTOPI)
 		self.client.subscribe(c.MQTTTOPJ)
 		self.client.subscribe(c.MQTTTOPT)
-		self.client.subscribe(c.MQTTSENSOR)
+		self.client.subscribe(c.MQTTSENSOR+"/#")
 		self.client.subscribe("test")
 
 	def on_message(self,client, userdata, msg):
@@ -694,7 +701,7 @@ def sendMsg(msg,colstr=False,tag="nothing"):
 		if colstr:
 			pos = chat.search(colstr,END,backwards=True)
 			epos = pos.split('.')[0] +'.'+ str(len(colstr))
-			debugMsg(pos,epos)
+			#debugMsg(pos,epos)
 			chat.tag_add(tag,pos,epos)
 		chat.update()
 		f.update_idletasks()
