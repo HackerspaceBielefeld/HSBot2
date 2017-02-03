@@ -18,7 +18,7 @@ if humidity is not None and temperature is not None:
 	mospub.single(mqtttopt, payload=temperature, hostname=mqttserv)
 	sleep(1)
 	mospub.single(mqtttoph, payload=humidity, hostname=mqttserv)
-    print('Temp={0:0.1f}*  Humidity={1:0.1f}%'.format(temperature, humidity))
+	print('Temp={0:0.1f}*  Humidity={1:0.1f}%'.format(temperature, humidity))
 	sys.exit(0)
 else:
     print('Failed to get reading. Try again!')
