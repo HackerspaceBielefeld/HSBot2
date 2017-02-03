@@ -346,7 +346,7 @@ class MQTT():
 			
 		if msg.topic.startswith(c.MQTTSENSOR):
 			global sensors
-			l = len(c.MQTTSENSOR)
+			l = len(c.MQTTSENSOR)+1
 			sname = msg.topic[l:]
 			swert = msg.payload
 			sensors[sname] = swert
