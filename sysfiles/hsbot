@@ -33,6 +33,7 @@ start)
     echo "" >> $LOG
     echo "HSBot start: "$(date) >> $LOG
 
+    unclutter -idle 0.01 -root &
     sleep 5
     su -l $USER -c "cd /home/pi/HSBot2; ./hsbot.py 2>> $LOG &"
     echo "Logging to "$LOG
@@ -41,6 +42,7 @@ start)
 stop)
     echo "Stopping HSBot.."
     killall hsbot.py
+    killall unclutter
     sleep 2
     echo "" >> $LOG
     echo "HSBot stop: "$(date) >> $LOG

@@ -86,7 +86,7 @@ def makePony(p):
 	global sensors
 
 	ponyPressed = ponyPressed +1
-	sensors['/pony_faktor/innen'] = randint(-1000,2000) * randint(1,ponyPressed) / 10
+	sensors['pony_faktor/innen'] = randint(-1000,2000) * randint(1,ponyPressed) / 10
 
 	if p == "!":
 		noPony = time() + 7200
