@@ -447,7 +447,7 @@ class Jabber(sleekxmpp.ClientXMPP):
 					befehl(msg['mucnick'],msg['body'])
 				
 				l = msg['body'].lower()
-				if l.startswith("moin") or l.startswith("hallo") or l.startswith("guten tag") or l.startswith("guten abend") or l.startswith("nabend") or l.startswith("hi ") or l.startswith("hi.") or l.startswith("hi!") or l.startswith("achja guten morgen"):
+				if l.startswith("guten morgen") or l.startswith("moin") or l.startswith("hallo") or l.startswith("guten tag") or l.startswith("guten abend") or l.startswith("nabend") or l.startswith("hi ") or l.startswith("hi.") or l.startswith("hi!") or l.startswith("achja guten morgen"):
 					makeMoin(msg['mucnick'])
 				
 		#except:
