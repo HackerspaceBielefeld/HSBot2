@@ -3,6 +3,8 @@
 
 import os
 
+DEBUG = True
+
 # Ports & URLs
 NODERED = "http://127.0.0.1:1880"												#wohin wird die nodered anfrage geschickt
 
@@ -14,7 +16,7 @@ CACPATH = os.path.dirname(os.path.realpath(__file__)) +"/cache"					#für tmp fi
 # Jabber Daten
 JUSER = "bot@jabber.space.bi"		#bot anmeldename
 JNICK = "HSBot"				#Bot anzeigename
-JPASS = ""				#bot Passwort
+JPASS = ""		#bot Passwort
 JROOM = "hsb@chat.jabber.space.bi"	#bot raum
 
 #Telegram Daten
@@ -22,19 +24,16 @@ TOKEN = ""				#Telegram Bot Token
 TFILE = os.path.dirname(os.path.realpath(__file__)) +"/cache/telegram-follower"	#eingetragene follower bei telegram
 
 #MQTT Daten
-MQTTSRV = "172.23.45.5"			#mqtt server
+MQTTSRV = "127.0.0.1"			#mqtt server
+MQTTUSER = "HSBot"	#MQTT User
+MQTTPASS = ""	#MQTT Passwort
+
 MQTTTOPI = "hsbot/chat/privat"	#mqtt chat topic nur display
 MQTTTOPJ = "hsbot/chat/public"	#mqtt chat auch an den Server
-MQTTTOPC = "habot/chat"			#mqtt ingehende chatnachrichten
 MQTTTOPT = "hsbot/toast"		#mqtt toast topic
-MQTTTOPTOUT = "toasted"			#mqtt toast ausgabe
+MQTTTOPTOUT = "hsbot/toasted"			#mqtt toast ausgabe
 MQTTDEBU = "debug/hsbot"		#mqtt debug topic
 MQTTOUTP = "hsbot"				#allgemeiner output topic
 MQTTSENSOR = "sensors"		#mqtt sensoren empfangen
 
-# GPIO Daten
-INPINS = [8,10,11,12,13,15,16,18,21,22,23,24,26]
-OUTPINS = []
-
-VERSION = "1.0.3 Build 0146-B"		#versionsnummer
 SUPPORT = "electronicfreak"

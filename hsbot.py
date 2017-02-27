@@ -305,8 +305,10 @@ class MQTT():
 	print("MQTT start")	
 	def __init__(self):
 		self.client = mossub.Client()
+		#self.client.username_pw_set(c.MQTTUSER,c.MQTTPASS)
 		self.client.on_connect = self.on_connect
 		self.client.on_message = self.on_message
+		self.client.on_disconnect = self.on_disconnect
 		
 	def run(self):
 		self.client.connect(c.MQTTSRV, 1883, 60)
@@ -321,6 +323,9 @@ class MQTT():
 		self.client.subscribe(c.MQTTTOPT)
 		self.client.subscribe(c.MQTTSENSOR+"/#")
 		self.client.subscribe("test")
+
+	def on_disconnect(self,client,userdata,rc):
+		debugMsg("MQTT Stop: "+str(rc))
 
 	def on_message(self,client, userdata, msg):
 		debugMsg("MQTT Msg: "+msg.topic+" "+str(msg.payload))
@@ -340,7 +345,7 @@ class MQTT():
 		if msg.topic == c.MQTTTOPI or msg.topic == c.MQTTTOPJ:
 			sendMsg("[MQTT]: "+str(msg.payload))
 			
-		if msg.topic == c.MQTTTOPC:
+		if msg.topic == c.MQTTTOPJ:
 			global jabber
 			jabber.sendTo("[MQTT]: "+ str(msg.payload))
 			
