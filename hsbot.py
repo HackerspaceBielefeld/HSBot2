@@ -89,13 +89,13 @@ def makePony(p):
 	sensors['pony_faktor/innen'] = randint(-1000,2000) * randint(1,ponyPressed) / 10
 
 	if p == "!":
-		noPony = time() + 7200
+		noPony = time() + 10800
 	else:
-		x = 1
+		x = 3
 		r = randrange(0,x)
 		if r == 0:
 			if noPony < time():
-				jabber.sendTo("[PONIES] Ponies wurden an die USA ausgeliefert.")
+				jabber.sendTo("[PONIES] Ponies haben technische Probleme")
 			makeFullImg('/media/pony.png',10)
 		elif r == 1:
 			if noPony < time():
@@ -105,7 +105,7 @@ def makePony(p):
 			if noPony < time():
 				jabber.sendTo("[PONIES] PONYPONYPONY")
 			makeFullAni('/media/pony2.gif')
-		mospub.single(c.MQTTDEBU, payload="pony", hostname=c.MQTTSRV)
+		debugMsg("pony")
 		
 def makeTrains(nick):
 	global lastTrain
