@@ -345,6 +345,9 @@ class MQTT():
 			
 			if msg.payload == 'virus':
 				thread(makeFullAni,('/media/id4-virus.gif',0.04))
+				
+			if msg.payload == 'summon':
+				jabber.sendPrivate('electronicfreak','You`ve been summoned!!')
 
 		if msg.topic == c.MQTTTOPI or msg.topic == c.MQTTTOPJ:
 			sendMsg("[MQTT]: "+str(msg.payload))
