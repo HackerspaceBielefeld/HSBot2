@@ -306,7 +306,7 @@ class MQTT():
 	debugMsg("MQTT start")	
 	def __init__(self):
 		self.client = mossub.Client()
-		if not c.MQTTUSER == "" 
+		if not c.MQTTUSER == "":
 			self.client.username_pw_set(c.MQTTUSER,c.MQTTPASS)
 		
 		self.client.on_connect = self.on_connect
@@ -353,7 +353,7 @@ class MQTT():
 			sendMsg("[MQTT]: "+str(msg.payload))
 			
 		if msg.topic == c.MQTTTOPJ:
-			global jabber
+			#global jabber #TODO testen ob das wichtig ist
 			jabber.sendTo("[MQTT]: "+ str(msg.payload))
 			
 		if msg.topic.startswith(c.MQTTSENSOR):
@@ -729,7 +729,6 @@ io = IOPorts()
 thread(getClock,())
 thread(getInfo,())
 thread(getGWP,())
-print("preMQTT")
 mqtt = MQTT()
 jabber = Jabber()
 thread(jabber.run,())

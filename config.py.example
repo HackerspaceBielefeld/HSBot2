@@ -25,7 +25,7 @@ TFILE = os.path.dirname(os.path.realpath(__file__)) +"/cache/telegram-follower"	
 
 #MQTT Daten
 MQTTSRV = "127.0.0.1"			#mqtt server
-MQTTUSER = "HSBot"	#MQTT User
+MQTTUSER = ""	#MQTT User
 MQTTPASS = ""	#MQTT Passwort
 
 MQTTTOPI = "hsbot/chat/privat"	#mqtt chat topic nur display
@@ -35,5 +35,6 @@ MQTTTOPTOUT = "hsbot/toasted"			#mqtt toast ausgabe
 MQTTDEBU = "debug/hsbot"		#mqtt debug topic
 MQTTOUTP = "hsbot"				#allgemeiner output topic
 MQTTSENSOR = "sensors"		#mqtt sensoren empfangen
+MQTTTRIG = "trigger"			#mqtt topic für lüstige sachen zum triggern
 
 SUPPORT = "electronicfreak"
