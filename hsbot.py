@@ -280,7 +280,8 @@ def makeSensor(pattern):
 		if k.startswith(pattern):
 			s = s +"\n"+ str(k) +": "+ str(sensors[k])
 		
-	jabber.sendTo("[SENSOR]"+ s)
+	if not s == "":
+		jabber.sendTo("[SENSOR]"+ s)
 	
 def setTopic(tpc):
 	pass
@@ -708,8 +709,11 @@ def sendMsg(msg,colstr=False,tag="nothing"):
 			epos = pos.split('.')[0] +'.'+ str(len(colstr))
 			#debugMsg(pos,epos)
 			chat.tag_add(tag,pos,epos)
+		sleep(0.1)
 		chat.update()
+		sleep(0.1)
 		f.update_idletasks()
+		sleep(0.1)
 		mospub.single(c.MQTTTOPC, payload=msg, hostname=c.MQTTSRV)
 	except:
 		pass
