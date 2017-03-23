@@ -303,10 +303,12 @@ def debugMsg(msg,fkt='DEBUG-BOT'):
 class MQTT():
 	client = mossub.Client()
 
-	print("MQTT start")	
+	debugMsg("MQTT start")	
 	def __init__(self):
 		self.client = mossub.Client()
-		#self.client.username_pw_set(c.MQTTUSER,c.MQTTPASS)
+		if not c.MQTTUSER == "" 
+			self.client.username_pw_set(c.MQTTUSER,c.MQTTPASS)
+		
 		self.client.on_connect = self.on_connect
 		self.client.on_message = self.on_message
 		self.client.on_disconnect = self.on_disconnect
@@ -314,7 +316,7 @@ class MQTT():
 	def run(self):
 		self.client.connect(c.MQTTSRV, 1883, 60)
 		while True:
-			print("MQTT loop")
+			debugMsg("MQTT loop")
 			self.client.loop_forever()
 
 	def on_connect(self,client, userdata, flags, rc):
@@ -333,15 +335,16 @@ class MQTT():
 		if(msg.topic == c.MQTTTOPT):
 			makeToast(msg.payload,10)
 			
-		if msg.topic == 'test' and msg.payload == 'blue':
-			thread(makeFullImg,('/media/bluescreen.png',10))
-			print("trigger Blue")
+		if msg.topic == c.MQTTTRIG:
+			if msg.payload == 'blue':
+				thread(makeFullImg,('/media/bluescreen.png',10))
+				debugMsg("trigger Blue")
 		
-		if msg.topic == 'test' and msg.payload == 'red':
-			thread(makeFullAni,('/media/test.gif',0.04))
+			if msg.payload == 'red':
+				thread(makeFullAni,('/media/test.gif',0.04))
 			
-		if msg.topic == 'test' and msg.payload == 'virus':
-			thread(makeFullAni,('/media/id4-virus.gif',0.04))
+			if msg.payload == 'virus':
+				thread(makeFullAni,('/media/id4-virus.gif',0.04))
 
 		if msg.topic == c.MQTTTOPI or msg.topic == c.MQTTTOPJ:
 			sendMsg("[MQTT]: "+str(msg.payload))
