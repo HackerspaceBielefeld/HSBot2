@@ -1,4 +1,5 @@
 # m h dom mon dow user  command
-1 0		* * *	bot		cd /home/bot/HSBot2/ && ./termine.py
+1 0	* * *	bot	cd /home/bot/HSBot2/ && ./termine.py
 23 8	* * 1	root	reboot
-* *		* * *	bot		cd /home/bot/HSBot2/ && ./dht11.py
+* *	* * *	bot	cd /home/bot/HSBot2/ && ./dht11.py
+* *	* * *	root	cd /home/bot/HSBot2/ && ./watchdog.sh
