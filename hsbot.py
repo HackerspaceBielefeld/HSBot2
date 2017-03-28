@@ -325,7 +325,7 @@ class MQTT():
 		self.client.subscribe(c.MQTTTOPJ)
 		self.client.subscribe(c.MQTTTOPT)
 		self.client.subscribe(c.MQTTSENSOR+"/#")
-		self.client.subscribe("test")
+		self.client.subscribe(c.MQTTTRIG)
 
 	def on_disconnect(self,client,userdata,rc):
 		debugMsg("MQTT Stop: "+str(rc))
@@ -423,7 +423,7 @@ class Jabber(sleekxmpp.ClientXMPP):
 		self.send_message(mto=c.JROOM,mbody=txt,mtype='groupchat')
 		sendMsg(txt,txt,"bot")
 		
-	def sendPrivate(self,nick,text):
+	def sendPrivate(self,nick,txt):
 		self.send_message(mto=c.JROOM+"/"+nick,mbody=txt,mtype='groupchat')
 		
 	def changeSubj(self,subj):
@@ -433,7 +433,7 @@ class Jabber(sleekxmpp.ClientXMPP):
 		self.send_raw("<message from='"+c.JROOM+"/"+c.JNICK+"' id='lh2bs617' to='"+c.JROOM+"' type='groupchat'><subject>"+self.TOPIC+"</subject></message>")
 		
 	def muc(self, msg):
-		#try:
+		try:
 			if msg['mucnick'] != c.JNICK and msg['from'].bare.startswith(c.JROOM):
 				t = localtime()
 				h = t[3]
@@ -462,7 +462,7 @@ class Jabber(sleekxmpp.ClientXMPP):
 				if l.startswith("guten morgen") or l.startswith("moin") or l.startswith("hallo") or l.startswith("guten tag") or l.startswith("guten abend") or l.startswith("nabend") or l.startswith("hi ") or l.startswith("hi.") or l.startswith("hi!") or l.startswith("achja guten morgen"):
 					makeMoin(msg['mucnick'])
 				
-		#except:
+		except:
 			pass
 			
 # diese klasse überwacht alle GPIO ports und reagiert nach wunsch
@@ -686,7 +686,7 @@ def getInfo():
 			infot.delete("1.0",END)
 			infot.insert(END, infos[j])
 			infot.tag_add("all", "1.0", END)
-			ti.set(j)
+			ti.set(j.replace("_","  "))
 			infot.update()
 			sleep(30)
 			
