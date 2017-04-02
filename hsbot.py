@@ -58,6 +58,8 @@ def befehl(nick,msg):
 				io.blink_start(int(param),0.1)
 		elif b[0] == ':sensor':
 			thread(makeSensor,(param,))
+		elif b[0] == ':foo':
+			jabber.sendTo("[FOO] Ich hab dich auch lieb!")
 	except:
 		pass
 		
