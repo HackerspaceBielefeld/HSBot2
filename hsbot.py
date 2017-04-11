@@ -385,7 +385,7 @@ class Jabber(sleekxmpp.ClientXMPP):
 		self.newSession()
 		sleep(10)
 		vers = open('version.txt').read()
-		self.sendTo("[STATUS] Reboot erfolgreich... (HSBot "+vers[:-1]+")")
+		#self.sendTo("[STATUS] Reboot erfolgreich... (HSBot "+vers[:-1]+")")
 		
 		while True:
 			sleep(30)
