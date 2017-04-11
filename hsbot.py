@@ -603,7 +603,7 @@ class IOPorts():
 f = Tk()
 h = f.winfo_screenheight()
 w = f.winfo_screenwidth()
-debugMsg(w,h)
+debugMsg((w,h))
 
 #Fenster
 f.title('HSBot2')
